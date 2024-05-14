@@ -83,7 +83,7 @@
           map.Ui.Geolocation.visible(true);
           map.Ui.Zoombar.visible(true);
           map.Ui.Scale.visible(true);
-          map.Ui.Toolbar.visible(false);
+          //map.Ui.Toolbar.visible(false);
           btnLayers.style.display = "block";
         });
       }
@@ -106,45 +106,45 @@
         );
         // console.log(radioButtons[0].id)
         var checkRadioBtn = radioButtons[0].id;
-        if (checkRadioBtn == "WMSLayer") {
-          let wms_layer = new sphere.Layer('bluemarble_terrain', { 
-            type: sphere.LayerType.WMS, 
-            url: "https://ms.longdo.com/mapproxy/service",
-            zoomRange: { min: 1, max: 9 },
-            refresh: 180,
-            zIndex: 10
-          });
-          map.Layers.add(wms_layer);
-
-        } else if (checkRadioBtn == "TMSLayer") {
-          let tms_layer = new sphere.Layer('', { 
-          type: sphere.LayerType.TMS,
-        url: "https://ms.longdo.com/mapproxy/tms/1.0.0/bluemarble_terrain/EPSG3857",
-        bound: {
-        minLon: 100.122195, minLat: 14.249463,
-        maxLon: 100.533496, maxLat: 14.480279
-        },
-        zoomOffset: 0 
-          });
-          map.Layers.add(tms_layer);
-
-        } else if (checkRadioBtn == "PM2.5") {
-          let pmLayer = new sphere.Layer(0, {
+          // PM 2.5 (WMS)
+        if (checkRadioBtn == "pm25_hourly_raster") {
+          let pm25_hourly_raster = new sphere.Layer(0, {
             type: sphere.LayerType.WMS,
             url: "https://service-proxy-765rkyfg3q-as.a.run.app/api_geoserver/geoserver/pm25_hourly_raster/wms?",
             opacity: 0.8,
             zIndex: 6,
             id: "pm25_hourly_raster",
           });
-          map.Layers.add(pmLayer);
+          map.Layers.add(pm25_hourly_raster);
 
-        } else if (checkRadioBtn == "WMTS") {
+        } else if (checkRadioBtn == "ptp_l10_zoning_rfd_50k") {
+          // โซนนิ่งป่าไม้ (TMS)
+          let ptp_l10_zoning_rfd_50k = new sphere.Layer("", {
+            type: sphere.LayerType.TMS,
+            url: "https://change2.gistda.or.th/geoserver/gwc/service/tms/1.0.0/gistda:ptp_l10_zoning_rfd_50k@EPSG:900913@png/{z}/{x}/{y}.png",
+            opacity: 1,
+            zIndex: 5,
+            id: "ptp_l10_zoning_rfd_50k",
+          });
+          this.map.Layers.add(ptp_l10_zoning_rfd_50k);
+
+          // แผนที่ดาวเทียม (WMTS)
+        } else if (checkRadioBtn == "WMTSLayer") {
           let WMTSLayer = new sphere.Layer('bluemarble_terrain', { 
             type: sphere.LayerType.WMTS_REST,
             url: 'https://ms.longdo.com/mapproxy/wmts',
             srs: 'GLOBAL_WEBMERCATOR',
           }); 
           map.Layers.add(WMTSLayer);
+
+          // (OGC))
+        } else if (checkRadioBtn == "OGCLayer") {
+          let OGCLayer = new sphere.Layer('bluemarble_terrain', { 
+            type: sphere.LayerType.WMTS_REST,
+            url: 'https://ms.longdo.com/mapproxy/wmts',
+            srs: 'GLOBAL_WEBMERCATOR',
+          }); 
+          map.Layers.add(OGCLayer);
         }
       }
     </script>
@@ -166,7 +166,7 @@
       <div
         style="
           border-radius: 15px;
-          width: 260px;
+          width: 280px;
           height: auto;
           padding-bottom: 20px;
           background-color: rgb(255, 255, 255);
@@ -186,38 +186,38 @@
              
             <input
               type="radio"
-              id="WMSLayer"
+              id="pm25_hourly_raster"
               name="Maplayer"
-              value="WMSLayer"
+              value="pm25_hourly_raster"
             />
-              <label for="WMSLayer">WMS</label><br />
+              <label for="pm25_hourly_raster">WMS (PM 2.5 รายชั่วโมง) </label><br />
             <hr class="new1">
              
             <input
               type="radio"
-              id="TMSLayer"
+              id="ptp_l10_zoning_rfd_50k"
               name="Maplayer"
-              value="TMSLayer"
+              value="ptp_l10_zoning_rfd_50k"
             />
-               <label for="TMSLayer">TMS SERVER</label><br />
+               <label for="ptp_l10_zoning_rfd_50k">TMS SERVER (โซนนิ่งป่าไม้)</label><br />
             <hr class="new1">
              
             <input 
             type="radio" 
-            id="PM2.5" 
+            id="WMTSLayer" 
             name="Maplayer" 
-            value="PM2.5" 
+            value="WMTSLayer" 
             />
-              <label for="PM2.5">PM 2.5 รายชั่วโมง</label><br />
+              <label for="WMTSLayer">WMTS REST (แผนที่ดาวเทียม)</label><br />
             <hr class="new1">
              
             <input
               type="radio"
-              id="WMTS"
+              id="OGCLayer"
               name="Maplayer"
-              value="WMTS"
+              value="OGCLayer"
             />
-              <label for="WMTS">WMTS REST</label><br />
+              <label for="OGCLayer">OGC LAYER (???)</label><br />
             <hr class="new1">
           </form>
         </div>
