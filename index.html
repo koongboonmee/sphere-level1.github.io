@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="32x32" href="map-32x32.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <title>Template Level 1</title>
     <style type="text/css">
       html,
@@ -14,7 +14,7 @@
         height: 100%;
         font-family: "Prompt", sans-serif;
       }
-
+ 
       #map {
         width: 100%;
         height: 100%;
@@ -65,6 +65,10 @@
         border-top: 1px solid #d9d9d9;
       }
 
+      .label {
+  font-size: 15px;
+      }
+
     </style>
 
     <script
@@ -85,7 +89,7 @@
           map.Ui.Zoombar.visible(true);
           map.Ui.Scale.visible(true);
           map.goTo({ center: { lon: 101.091276, lat: 16.272653}, zoom: 6 });
-          //map.Ui.Toolbar.visible(false);
+          //map.Ui.Toolbar.visible(true); 
           btnLayers.style.display = "block";
         });
       }
@@ -147,7 +151,15 @@
             srs: 'GLOBAL_WEBMERCATOR',
           }); 
           map.Layers.add(OGCLayer);
-        }
+        } else if (checkRadioBtn == "OGCLayer1") {
+          let OGCLayer1 = new sphere.Layer('bluemarble_terrain', { 
+            type: sphere.LayerType.WMTS_REST,
+            url: 'https://ms.longdo.com/mapproxy/wmts',
+            srs: 'GLOBAL_WEBMERCATOR',
+          }); 
+          map.Layers.add(OGCLayer1);
+
+        } 
       }
     </script>
 
@@ -174,13 +186,13 @@
           background-color: rgb(255, 255, 255);
         "
       >
-        <div>
+        <div class="label">
         <p 
         style="padding-left: 20px; 
         padding-top: 5px; 
         padding-bottom: 3px; 
-        background-color: blue; 
-        color: #ffff;
+        background-color: #004225; 
+        color: #ffff; 
         border-radius: 15px 15px 0px 0px; 
         font-size: 18px">เลือกชั้นแผนที่</p>
 
@@ -190,7 +202,7 @@
               type="radio"
               id="pm25_hourly_raster"
               name="Maplayer"
-              value="pm25_hourly_raster"
+              value="pm25_hourly_raster" 
             />
               <label for="pm25_hourly_raster">WMS (PM 2.5 รายชั่วโมง) </label><br />
             <hr class="new1">
@@ -220,6 +232,15 @@
               value="OGCLayer"
             />
               <label for="OGCLayer">OGC LAYER (???)</label><br />
+            <hr class="new1">
+             
+            <input
+              type="radio"
+              id="AddMarker"
+              name="Maplayer"
+              value="AddMarker"
+            />
+              <label for="AddMarker">Add Marker</label><br />
             <hr class="new1">
           </form>
         </div>
