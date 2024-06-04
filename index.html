@@ -24,19 +24,19 @@
         display: none;
         position: absolute;
         z-index: 5;
-        top: 180px;
+        top: 182px;
       }
 
       .containerBtnLayers {
         box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        float: left;
+        float: block;
         margin: 10px 0 0 10px;
         background: #ffffff;
         border-radius: 4px;
       }
 
       .btnLayers {
-        background-image: url("https://www.svgrepo.com/show/502719/layer-1.svg");
+        background-image: url("https://www.svgrepo.com/show/471577/layers-two-02.svg");
         background-size: 22px;
         background-color: transparent;
         background-repeat: no-repeat;
@@ -53,7 +53,7 @@
       }
 
       .btnAddmarker {
-        background-image: url("https://www.svgrepo.com/show/376569/map-marker-plus-line.svg");
+        background-image: url("https://www.svgrepo.com/show/532543/location-plus.svg");
         background-size: 22px;
         background-color: transparent;
         background-repeat: no-repeat;
@@ -106,6 +106,7 @@
           placeholder: document.getElementById("map"),
         });
         var btnLayers = document.getElementById("positionBtnLayers");
+        //var btnAddmarker = document.getElementById("positionBtnLayers");
         map.Event.bind(window.sphere.EventName.Ready, () => {
           map.Ui.DPad.visible(true); 
           map.Ui.Geolocation.visible(true);
@@ -114,6 +115,7 @@
           map.goTo({ center: { lon: 100.420041, lat: 13.546678}, zoom: 5 });
           //map.Ui.Toolbar.visible(true); 
           btnLayers.style.display = "block";
+          //btnAddmarker.style.display = "block";
           
         });
       }
@@ -195,16 +197,24 @@
         var AddMarker7 = new sphere.Marker({ lon: 99.26, lat: 8.70});
         var AddMarker8 = new sphere.Marker({ lon: 101.51, lat: 6.12});
         var AddMarker9 = new sphere.Marker({ lon: 105.10, lat: 14.79});  
-        var AddMarker10 = new sphere.Marker({ lon: 99.02, lat: 15.94}); 
-          map.Overlays.add(AddMarker);
-          map.Overlays.add(AddMarker1);
-          map.Overlays.add(AddMarker2);
-          map.Overlays.add(AddMarker3);
-          map.Overlays.add(AddMarker4);
-          map.Overlays.add(AddMarker5);
-          map.Overlays.add(AddMarker6);
-          map.Overlays.add(AddMarker7);
-          map.Overlays.add(AddMarker8);
+        var AddMarker10 = new sphere.Marker({ lon: 99.02, lat: 15.94});  
+        var overlayslist = map.Overlays.list()
+
+        if (overlayslist.length == 0) {
+            map.Overlays.add(AddMarker);
+            map.Overlays.add(AddMarker1);
+            map.Overlays.add(AddMarker2);
+            map.Overlays.add(AddMarker3);
+            map.Overlays.add(AddMarker4);
+            map.Overlays.add(AddMarker5);
+            map.Overlays.add(AddMarker6);
+            map.Overlays.add(AddMarker7);
+            map.Overlays.add(AddMarker8);
+            map.Overlays.add(AddMarker9);
+            map.Overlays.add(AddMarker10);
+        } else {
+            map.Overlays.clear()
+        }
       }
     </script>
 
@@ -215,7 +225,6 @@
       <div class="containerBtnLayers">
         <button class="btnLayers" onclick="openCardLayer()" title="Add layer"></button>
       </div>
-      <br>
       <div class="containerBtnLayers">
         <button class="btnAddmarker" onclick="AddMarker()" title="Add Marker"></button>
       </div>
